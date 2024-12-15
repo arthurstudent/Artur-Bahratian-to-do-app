@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "37555cc6-6e53-4f58-ae1c-04823fdb07f1",
+		"name": "Todo app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14431760"
+	},
+	"item": [
+		{
+			"name": "user-service",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"1234@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"confirmPassword\": \"your_strong_password\",\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8222/api/v1/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"1234@gmail.com\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/v1/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "task-service",
+			"item": [
+				{
+					"name": "create task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0MjgwMDAyLCJleHAiOjE3MzQyOTgwMDJ9.24tajaDOsNGsP6A4Cu8oBdA_idGIirpFv5Ynh5DtN3k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/Admin/Downloads/free-icon-gmail-732200 (1).png"
+								},
+								{
+									"key": "taskName",
+									"value": "33676гпорпопгнее",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "description",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get task by task id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0MjgwMDAyLCJleHAiOjE3MzQyOTgwMDJ9.24tajaDOsNGsP6A4Cu8oBdA_idGIirpFv5Ynh5DtN3k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/get-task/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"get-task",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all user's tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0MjgwMDAyLCJleHAiOjE3MzQyOTgwMDJ9.24tajaDOsNGsP6A4Cu8oBdA_idGIirpFv5Ynh5DtN3k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskStatus\" : \"COMPLETED\",\r\n    \"page\": 0, \r\n    \"pageSize\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/get-all-user-tasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"get-all-user-tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update task by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0MjgwMDAyLCJleHAiOjE3MzQyOTgwMDJ9.24tajaDOsNGsP6A4Cu8oBdA_idGIirpFv5Ynh5DtN3k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskName\": \"new\",\r\n    \"taskStatus\": \"COMPLETED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get file by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0MTk5MDI5LCJleHAiOjE3MzQyMTcwMjl9.hooxV4ZUIkrlbAz0QoXG78pn2ATeNJ0qflKnxPlf2kg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/file/free-icon-gmail-732200 (1).png",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"file",
+								"free-icon-gmail-732200 (1).png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add files to the task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0Mjg5NjQzLCJleHAiOjE3MzQzMDc2NDN9.6JAHAkrOA_0fcNYTLSc96q7mTsIO6OuXvdzqaigyUmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/Admin/Downloads/free-icon-linkedin-3991775.png"
+								},
+								{
+									"key": "files",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/add-file/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"add-file",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete attached file from the task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0Mjg5NjQzLCJleHAiOjE3MzQzMDc2NDN9.6JAHAkrOA_0fcNYTLSc96q7mTsIO6OuXvdzqaigyUmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/1/delete-file/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"1",
+								"delete-file",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete task ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNzM0Mjg5NjQzLCJleHAiOjE3MzQzMDc2NDN9.6JAHAkrOA_0fcNYTLSc96q7mTsIO6OuXvdzqaigyUmw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8222/api/v1/tasks/delete-task/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8222",
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"delete-task",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
