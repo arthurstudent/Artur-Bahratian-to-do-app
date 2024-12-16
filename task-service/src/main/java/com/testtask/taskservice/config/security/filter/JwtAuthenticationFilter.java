@@ -5,7 +5,6 @@ import com.testtask.taskservice.model.dto.response.ApiResponse;
 import com.testtask.taskservice.model.security.CustomUserPrincipal;
 import com.testtask.taskservice.service.user.UserClient;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -31,53 +30,66 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserClient userClient;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
-        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String path = request.getRequestURI();
-        if (path.startsWith("/h2-console") || path.startsWith("/swagger") || path.startsWith("/v3/api-docs")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Missing or invalid Authorization header");
-            return;
-        }
-
-        String token = authorizationHeader.replace("Bearer ", "");
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+            throws IOException {
         try {
-            if (jwtTokenValidator.validateToken(token)) {
-                Long userId = Long.parseLong(jwtTokenValidator.getUserId(token));
-
-                Optional<ApiResponse<Boolean>> userExists = userClient.isUserExists(userId);
-
-                if (userExists.isEmpty() || !Boolean.TRUE.equals(userExists.get().getData())) {
-                    log.warn("User with id {} does not exist, or service is unavailable", userId);
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("Invalid token data provided, unable to authenticate");
-                }
-
-                CustomUserPrincipal customUserPrincipal = new CustomUserPrincipal(userId);
-
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(customUserPrincipal, null, null);
-
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                log.warn("Token is not valid, unable to authenticate");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Invalid token");
+            if (shouldSkipFilter(request.getRequestURI())) {
+                filterChain.doFilter(request, response);
                 return;
             }
+
+            String token = extractToken(request.getHeader(HttpHeaders.AUTHORIZATION));
+            if (token == null) {
+                sendErrorResponse(response, "Missing or invalid Authorization header");
+                return;
+            }
+
+            if (!jwtTokenValidator.validateToken(token)) {
+                sendErrorResponse(response, "Invalid token");
+                return;
+            }
+
+            if (!authenticateUser(token, request, response)) {
+                return;
+            }
+
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Error validating token: " + e.getMessage());
-            return;
+            sendErrorResponse(response, "Error validating token: " + e.getMessage());
+        }
+    }
+
+    private boolean shouldSkipFilter(String path) {
+        return path.startsWith("/h2-console") || path.startsWith("/swagger") || path.startsWith("/v3/api-docs");
+    }
+
+    private String extractToken(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        return authorizationHeader.replace("Bearer ", "");
+    }
+
+    private boolean authenticateUser(String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Long userId = Long.parseLong(jwtTokenValidator.getUserId(token));
+        Optional<ApiResponse<Boolean>> userExists = userClient.isUserExists(userId);
+
+        if (userExists.isEmpty() || !Boolean.TRUE.equals(userExists.get().getData())) {
+            log.warn("User with id {} does not exist, or service is unavailable", userId);
+            sendErrorResponse(response, "Invalid token data provided, unable to authenticate");
+            return false;
         }
 
-        filterChain.doFilter(request, response);
+        var customUserPrincipal = new CustomUserPrincipal(userId);
+        var authentication = new UsernamePasswordAuthenticationToken(customUserPrincipal, null, null);
+
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return true;
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(message);
     }
 }

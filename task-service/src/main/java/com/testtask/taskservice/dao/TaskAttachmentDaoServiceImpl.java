@@ -12,7 +12,7 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class TaskAttachmentDaoServiceImpl implements TaskAttachmentDaoService {
+class TaskAttachmentDaoServiceImpl implements TaskAttachmentDaoService {
 
     private final AttachmentsRepository attachmentsRepository;
 

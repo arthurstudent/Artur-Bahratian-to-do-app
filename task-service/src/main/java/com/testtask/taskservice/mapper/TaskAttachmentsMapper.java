@@ -35,7 +35,7 @@ public class TaskAttachmentsMapper {
 
     public AttachmentDto toAttachmentDto(@NonNull TaskAttachment attachment) {
         AttachmentDto attachmentDto = new AttachmentDto();
-        attachmentDto.setFileName(attachmentDto.getFileName());
+        attachmentDto.setFileName(attachment.getAttachmentName());
         attachmentDto.setId(attachment.getId());
         attachmentDto.setCreatedAt(attachment.getCreatedAt());
         return attachmentDto;

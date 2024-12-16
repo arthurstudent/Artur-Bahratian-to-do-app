@@ -15,7 +15,7 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class TaskDaoServiceImpl implements TaskDaoService {
+class TaskDaoServiceImpl implements TaskDaoService {
 
     private final TaskRepository taskRepository;
 
