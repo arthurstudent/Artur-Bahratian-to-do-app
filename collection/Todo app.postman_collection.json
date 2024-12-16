@@ -55,7 +55,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8090/api/v1/users/login",
+							"raw": "http://localhost:8222/api/v1/users/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -97,7 +97,7 @@
 								{
 									"key": "files",
 									"type": "file",
-									"src": "/C:/Users/Admin/Downloads/free-icon-gmail-732200 (1).png"
+									"src": "path to file on your local machine"
 								},
 								{
 									"key": "taskName",
@@ -266,7 +266,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8222/api/v1/tasks/file/free-icon-gmail-732200 (1).png",
+							"raw": "http://localhost:8222/api/v1/tasks/file/free-icon-gmail-732200.png",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -304,7 +304,7 @@
 								{
 									"key": "files",
 									"type": "file",
-									"src": "/C:/Users/Admin/Downloads/free-icon-linkedin-3991775.png"
+									"src": "path to a file on your local machine"
 								},
 								{
 									"key": "files",

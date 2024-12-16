@@ -75,6 +75,20 @@ The **Config Service** contains all configs and should be run first, so other se
 ## Folder Structure
 - **collection**: Contains the Postman collection JSON file for testing API endpoints.
 
+## Explore Rest APIs
+| **Method** | **URL**                                                      | **Description**                                               |
+|------------|--------------------------------------------------------------|---------------------------------------------------------------|
+| POST | http://localhost:8222/api/v1/users/register                  | register new user                                             | 
+| POST | http://localhost:8222/api/v1/users/login                     | login                                                         | 
+| POST | http://localhost:8222/api/v1/tasks/create                    | create task                                                   | 
+| GET | http://localhost:8222/api/v1/tasks/get-task/taskId           | get task by task id                                           |
+| POST | http://localhost:8222/api/v1/tasks/get-all-user-tasks        | get all user's tasks                                          |
+| PUT | http://localhost:8222/api/v1/tasks/update/taskId             | update task by id                                             |
+| GET | http://localhost:8222/api/v1/tasks/file/somefile.png         | get file by name                                              |
+| POST | http://localhost:8222/api/v1/tasks/add-file/taskId           | add files to the task                                         |
+| DELETE | http://localhost:8222/api/v1/tasks/taskId/delete-file/fileId | delete attached file from the task, required task and file ids |
+| DELETE | http://localhost:8222/api/v1/tasks/delete-task/taskId        | delete task by task id                                        |
+
 ## Configuration Details
 - In the **Configuration Server**, locate the configuration file for the **Task Service** and set your local path to the `temp` folder.
 - This project uses two H2 databases that are accessible via the `/h2-console` endpoints of the Task and User services.
