@@ -81,6 +81,16 @@ The **Config Service** contains all configs and should be run first, so other se
 - All necessary settings are contained in configuration files stored in the **Configuration Server**.
 - The `.env` file is not used because all information in this project is public and does not include any sensitive data.
 
+## Usage Instructions
+
+- First, register a new user using the User Service.
+
+- Then, log in with the registered user's credentials.
+
+- Upon successful login, a JWT token will be returned in the response.
+
+- Use this token to authenticate and execute further API requests.
+
 ## Notes
 - Use the Gateway Service for a unified entry point to the application.
 - Ensure all dependent services are running to avoid issues with token validation and data synchronization.
